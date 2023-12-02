@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_tots/theme/custom_style_theme.dart';
 
-/// La función [onSearch] tiene que poder recibir un string.
+/// La función [onSearch] tiene que poder recibir un string en su argumento.
 class InputSearchWidget extends StatefulWidget {
   const InputSearchWidget({
     Key? key,
@@ -55,7 +56,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
   @override
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(50),
       borderSide: const BorderSide(color: Colors.grey),
     );
 
@@ -79,9 +80,17 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                 },
               )
             : null,
-        prefixIcon: const Icon(Icons.search),
+        prefixIcon: Image.asset(
+          'assets/img/ic_search.png',
+        ),
+        contentPadding: const EdgeInsets.only(left: 0),
         floatingLabelStyle: const TextStyle(color: Colors.black),
         hintText: widget.hint,
+        hintStyle: const TextStyle(
+            fontSize: 13,
+            fontFamily: CustomStylesTheme.fontFamilyDMsans,
+            fontWeight:CustomStylesTheme.fontWeightMedium ,
+            color: CustomStylesTheme.hintColor),
         isDense: true,
         label: (widget.label != null) ? Text(widget.label!) : null,
         fillColor: Colors.white,

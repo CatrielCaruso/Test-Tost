@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:test_tots/helpers/validation_helper.dart';
 import 'package:test_tots/providers/login_provider.dart';
+import 'package:test_tots/theme/custom_style_theme.dart';
 import 'package:test_tots/widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -46,10 +47,11 @@ class LoginScreen extends StatelessWidget {
                       const Text(
                         'LOG IN',
                         style: TextStyle(
-                            fontSize: 12,
-                            height: 0.5,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF0D1111)),
+                          fontSize: 12,
+                          fontFamily: CustomStylesTheme.fontFamilyDMsans,
+                          fontWeight: CustomStylesTheme.fontWeightBold,
+                          color: CustomStylesTheme.textDarkColor,
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -80,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                                   (watchLoginProvider.showPassword)
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: const Color.fromRGBO(13, 30, 50, 0.38),
+                                  color: CustomStylesTheme.iconGreyColor,
                                 ),
                               ),
                             )),
@@ -91,35 +93,8 @@ class LoginScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () =>
                             readLoginProvider.onLogin(context: context),
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 28, vertical: 14),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF0D1111),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(34),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(45, 44, 131, 0.25),
-                                offset: Offset(
-                                  0.0,
-                                  4.0,
-                                ),
-                                blurRadius: 15.0,
-                              ), //BoxShadow
-                              //BoxShadow
-                            ],
-                          ),
-                          child: const Text(
-                            'LOG IN',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          ),
+                        child: const CustomButtomWidget(
+                          title: 'LOG IN',
                         ),
                       )
                     ],
@@ -133,3 +108,5 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
+
