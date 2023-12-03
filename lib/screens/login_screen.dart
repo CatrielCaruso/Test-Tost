@@ -57,6 +57,9 @@ class LoginScreen extends StatelessWidget {
                         height: 20,
                       ),
                       CustomInputWidget(
+                        onTapOutside: (event) =>
+                            readLoginProvider.focusNodeEmail.unfocus(),
+                        focusNode: readLoginProvider.focusNodeEmail,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: readLoginProvider.emailController,
                         validator: ValidationHelper.onErrorEmail,
@@ -66,6 +69,9 @@ class LoginScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomInputWidget(
+                        onTapOutside: (event) =>
+                            readLoginProvider.focusNodePassword.unfocus(),
+                        focusNode: readLoginProvider.focusNodePassword,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: readLoginProvider.passwordController,
                         validator: ValidationHelper.onErrorFieldEmpty,
@@ -108,5 +114,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-

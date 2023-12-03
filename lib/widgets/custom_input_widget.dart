@@ -17,7 +17,7 @@ class CustomInputWidget extends StatelessWidget {
       this.fillColor = Colors.transparent,
       this.inputFormatters,
       this.focusNode,
-      this.autovalidateMode})
+      this.autovalidateMode, this.onTapOutside})
       : super(key: key);
   final String? label;
   final String? hint;
@@ -30,7 +30,7 @@ class CustomInputWidget extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-
+  final void Function(PointerDownEvent)? onTapOutside;
   final Color? fillColor;
   final List<TextInputFormatter>? inputFormatters;
 
@@ -39,6 +39,7 @@ class CustomInputWidget extends StatelessWidget {
     // );
 
     return TextFormField(
+      onTapOutside:onTapOutside ,
       autovalidateMode: autovalidateMode,
       focusNode: focusNode,
       keyboardType: keyboardType,
