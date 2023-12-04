@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
 import 'package:test_tots/helpers/dialog_helper.dart';
+import 'package:test_tots/models/client_model.dart';
 import 'package:test_tots/theme/custom_style_theme.dart';
 import 'package:test_tots/widgets/widgets.dart';
 
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> initFetch() async {
     try {
-      readHomeProvider.getClients();
+      readHomeProvider.getClients(page: 1);
     } catch (e) {
       DialogHelper.customShowDialog(context: context, text: 'Unexpected error');
     }
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             Align(
@@ -82,8 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Row(
                             children: [
-                              const Expanded(
+                              Expanded(
                                 child: InputSearchWidget(
+                                  onSearch: readHomeProvider.onSearchClient,
+                                  focusNode: readHomeProvider.focusNode,
+                                  onTapOutside: (event) =>
+                                      readHomeProvider.focusNode.unfocus(),
                                   hint: 'Search...',
                                 ),
                               ),
@@ -126,74 +132,100 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 20),
-                            decoration: BoxDecoration(
-                              color: CustomStylesTheme.whiteColor,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                              border: Border.all(
-                                  color: CustomStylesTheme.blackColor,
-                                  width: 1),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(50),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        'Jane Cooper',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontFamily: CustomStylesTheme
-                                                .fontFamilyDMsans,
-                                            fontWeight: CustomStylesTheme
-                                                .fontWeightMedium,
-                                            overflow: TextOverflow.clip),
+                          if (readHomeProvider.searchClients.isNotEmpty) ...[
+                            Expanded(
+                              child: ListView.builder(
+                                  itemCount:
+                                      readHomeProvider.searchClients.length,
+                                  itemBuilder: (context, index) {
+                                    final Client client =
+                                        readHomeProvider.searchClients[index];
+                                    return Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 14, vertical: 20),
+                                      decoration: BoxDecoration(
+                                        color: CustomStylesTheme.whiteColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(20),
+                                        ),
+                                        border: Border.all(
+                                            color: CustomStylesTheme.blackColor,
+                                            width: 1),
                                       ),
-                                      Text(
-                                        'alma.lawson@example.com',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: CustomStylesTheme
-                                                .fontFamilyDMsans,
-                                            fontWeight: CustomStylesTheme
-                                                .fontWeightSmall,
-                                            overflow: TextOverflow.clip),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Image.asset('assets/img/ic_more.png'),
-                              ],
-                            ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/img/client_placeholder.png')),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(50),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  client.fullName!,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily:
+                                                          CustomStylesTheme
+                                                              .fontFamilyDMsans,
+                                                      fontWeight:
+                                                          CustomStylesTheme
+                                                              .fontWeightMedium,
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                ),
+                                                Text(
+                                                  client.email!,
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                          CustomStylesTheme
+                                                              .fontFamilyDMsans,
+                                                      fontWeight:
+                                                          CustomStylesTheme
+                                                              .fontWeightSmall,
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Image.asset('assets/img/ic_more.png'),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            )
+                          ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
+                            child: GestureDetector(
+                                onTap: () => readHomeProvider.onLoadClints(),
+                                child: const CustomButtomWidget(
+                                    title: 'LOAD MORE')),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 32),
-                            child: CustomButtomWidget(title: 'LOAD MORE'),
-                          )
                         ],
                       ),
                     ),

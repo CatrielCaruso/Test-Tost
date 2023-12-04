@@ -17,15 +17,18 @@ class InputSearchWidget extends StatefulWidget {
     this.searchIcon = false,
     this.widthText = 100,
     this.onSearch,
+    this.onTapOutside,
+    this.focusNode,
   }) : super(key: key);
   final String? label;
   final String? hint;
+  final FocusNode? focusNode;
   final String? errorMessage;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final bool obscureText;
   final Widget? suffixIcon;
-
+  final void Function(PointerDownEvent)? onTapOutside;
   final TextInputType? keyboardType;
   final String? title;
   final bool searchIcon;
@@ -61,6 +64,8 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
     );
 
     return TextFormField(
+      focusNode: widget.focusNode,
+      onTapOutside: widget.onTapOutside,
       keyboardType: widget.keyboardType,
       controller: editingController,
       onChanged: (_) {
@@ -89,7 +94,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
         hintStyle: const TextStyle(
             fontSize: 13,
             fontFamily: CustomStylesTheme.fontFamilyDMsans,
-            fontWeight:CustomStylesTheme.fontWeightMedium ,
+            fontWeight: CustomStylesTheme.fontWeightMedium,
             color: CustomStylesTheme.hintColor),
         isDense: true,
         label: (widget.label != null) ? Text(widget.label!) : null,
