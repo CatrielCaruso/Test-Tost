@@ -14,6 +14,7 @@ class LoginProvider with ChangeNotifier {
   GlobalKey<FormState> myFormKey = GlobalKey<FormState>();
   bool showPassword = false;
   Auth? auth;
+  bool isLoading = false;
 
   Future<void> onLogin({required BuildContext context}) async {
     try {
@@ -21,14 +22,20 @@ class LoginProvider with ChangeNotifier {
         return;
       }
 
+      isLoading = true;
+      notifyListeners();
+
       var resp = await AuthRepository.login(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
 
       if (resp.success == false) {
+        isLoading = false;
+        notifyListeners();
         if (!context.mounted) return;
-        DialogHelper.customShowDialog(
-            context: context, text: resp.error.message);
+        DialogHelper.customSnackBar(
+            context: context, text: resp.error.message, color: Colors.red);
+
         return;
       }
 
@@ -37,7 +44,9 @@ class LoginProvider with ChangeNotifier {
       if (!context.mounted) return;
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } catch (e) {
-      DialogHelper.customShowDialog(context: context, text: 'Unexpected error');
+      isLoading = false;
+      DialogHelper.customSnackBar(
+          context: context, text: 'Unexpected error', color: Colors.red);
       return;
     }
   }

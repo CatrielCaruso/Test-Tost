@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => HomeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (ctx) => AbmClientProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

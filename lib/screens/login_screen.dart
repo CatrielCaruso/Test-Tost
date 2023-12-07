@@ -96,11 +96,18 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(
                         height: 50,
                       ),
-                      GestureDetector(
-                        onTap: () =>
-                            readLoginProvider.onLogin(context: context),
-                        child: const CustomButtomWidget(
-                          title: 'LOG IN',
+                      AbsorbPointer(
+                        absorbing: watchLoginProvider.isLoading,
+                        child: GestureDetector(
+                          onTap: () =>
+                              readLoginProvider.onLogin(context: context),
+                          child: (watchLoginProvider.isLoading)
+                              ? const CircularProgressIndicator(
+                                  color: CustomStylesTheme.textDarkColor,
+                                )
+                              : const CustomButtomWidget(
+                                  title: 'LOG IN',
+                                ),
                         ),
                       )
                     ],

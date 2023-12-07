@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_tots/models/client_model.dart';
 
 import 'package:test_tots/repository/client_repository.dart';
+import 'package:test_tots/screens/abm_client_screen.dart';
 
 class HomeProvider with ChangeNotifier {
   FocusNode focusNode = FocusNode();
@@ -9,12 +10,12 @@ class HomeProvider with ChangeNotifier {
   int pageNro = 1;
   List<Client> clients = [];
   List<Client> searchClients = [];
-  Future<void> getClients({required int page}) async {
+  Future<void> getClients() async {
     try {
       initialLoading = true;
-      var resp = await ClientRepository.clients(page: page);
 
-      clients.addAll(resp);
+      clients = await ClientRepository.clients();
+
       searchClients = [...clients];
       initialLoading = false;
       notifyListeners();
@@ -26,8 +27,13 @@ class HomeProvider with ChangeNotifier {
   }
 
   Future<void> onLoadClints() async {
-    pageNro++;
-    await getClients(page: pageNro);
+    initialLoading = true;
+    notifyListeners();
+
+    await getClients();
+
+    initialLoading = false;
+    notifyListeners();
   }
 
   void onSearchClient(String text) {
@@ -44,7 +50,13 @@ class HomeProvider with ChangeNotifier {
             .toString()
             .toLowerCase()
             .contains(text.toLowerCase()))
+        .toList()
+        .take(5)
         .toList();
     notifyListeners();
+  }
+
+  void goToAbmClient({required BuildContext context}) {
+    Navigator.pushNamed(context, AbmClientScreen.routeName);
   }
 }

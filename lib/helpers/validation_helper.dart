@@ -9,27 +9,25 @@ class ValidationHelper {
 
   static String? onErrorEmail(value) {
     if (value!.trim().isEmpty) {
-      return 'El email es obligatorio';
+      return 'The email is required.';
     }
     if (!ValidationHelper.isValidEmail(value)) {
-      return 'El email ingresado no es válido.';
+      return 'The email entered is not valid.';
     }
     return null;
   }
 
   static String? onErrorPassword(value) {
-    if (value.toString().isEmpty) return 'El campo es requerido';
-    if (value.toString().trim().isEmpty) return 'El campo es requerido';
+    if (value.toString().isEmpty) return 'The field is required';
+    if (value.toString().trim().isEmpty) return 'The field is required';
 
     return null;
   }
 
   static String? onErrorFieldEmpty(value) {
-    if (value.toString().isEmpty) return 'El campo es requerido';
-    if (value.toString().trim().isEmpty) return 'El campo es requerido';
+    if (value.toString().isEmpty) return 'The field is required';
+    if (value.toString().trim().isEmpty) return 'The field is required';
 
     return null;
   }
-
- 
 }
