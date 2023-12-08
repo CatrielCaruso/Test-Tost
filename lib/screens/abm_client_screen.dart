@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:test_tots/widgets/upload_image_widget.dart';
 
 import '../theme/custom_style_theme.dart';
 import 'package:test_tots/helpers/validation_helper.dart';
+import 'package:test_tots/models/client_model.dart';
 import 'package:test_tots/providers/providers.dart';
 import 'package:test_tots/widgets/custom_bottom_widget.dart';
 import 'package:test_tots/widgets/custom_input_widget.dart';
+import 'package:test_tots/widgets/upload_image_widget.dart';
 
-class AbmClientScreen extends StatelessWidget {
+class AbmClientScreen extends StatefulWidget {
   static String routeName = 'abmClient';
-  const AbmClientScreen({Key? key}) : super(key: key);
+  final Client? client;
+  const AbmClientScreen({Key? key, this.client}) : super(key: key);
+
+  @override
+  State<AbmClientScreen> createState() => _AbmClientScreenState();
+}
+
+class _AbmClientScreenState extends State<AbmClientScreen> {
+  late final readAbmProvider = context.read<AbmClientProvider>();
+  late final watchAbmProvider = context.watch<AbmClientProvider>();
+  @override
+  void initState() {
+    if (widget.client == null) return;
+    fillClient();
+    super.initState();
+  }
+
+  void fillClient() {
+    readAbmProvider.fillField(client: widget.client!);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final readAbmProvider = context.read<AbmClientProvider>();
-    final watchAbmProvider = context.watch<AbmClientProvider>();
     return Scaffold(
       body: SizedBox(
         // width: double.infinity,
@@ -36,11 +54,13 @@ class AbmClientScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 40, left: 20),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40, left: 20),
                             child: Text(
-                              'Add new client',
-                              style: TextStyle(
+                              (widget.client == null)
+                                  ? 'Add new client'
+                                  : 'Update client',
+                              style: const TextStyle(
                                   fontFamily:
                                       CustomStylesTheme.fontFamilyDMsans,
                                   fontSize: 17,

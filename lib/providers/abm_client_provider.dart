@@ -75,4 +75,11 @@ class AbmClientProvider with ChangeNotifier {
     lastNameController.clear();
     addressController.clear();
   }
+
+  void fillField({required Client client}) {
+    emailController.text = client.email!;
+    firtsNameController.text = client.firstname!;
+    lastNameController.text = client.lastname!;
+    addressController.text = client.address!;
+  }
 }

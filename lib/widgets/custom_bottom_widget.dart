@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:test_tots/theme/custom_style_theme.dart';
@@ -42,5 +41,48 @@ class CustomButtomWidget extends StatelessWidget {
             fontWeight: CustomStylesTheme.fontWeightMedium),
       ),
     );
+  }
+}
+
+class CustomButtomOpcion extends StatelessWidget {
+  final Color color;
+  final String text;
+  final Widget image;
+  const CustomButtomOpcion({
+    super.key,
+    required this.color,
+    required this.text,
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.symmetric(vertical: 17),
+        decoration:  BoxDecoration(
+          color: color,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 12,
+            ),
+            image,
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              text,
+              style: const TextStyle(
+                  fontFamily: CustomStylesTheme.fontFamilyDMsans,
+                  color: CustomStylesTheme.whiteColor,
+                  fontSize: 16,
+                  fontWeight: CustomStylesTheme.fontWeightSmall),
+            ),
+          ],
+        ));
   }
 }

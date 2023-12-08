@@ -37,7 +37,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Imagen',
               ),
               const SizedBox(
@@ -52,12 +52,12 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
                       onSelectedImagePicker(imagenSourceSelected);
                       Navigator.pop(context);
                     },
-                    child: Row(
+                    child: const Row(
                       children: [
                         Text(
                           'Camara',
                         ),
-                        const SizedBox(
+                         SizedBox(
                           width: 5,
                         ),
                         Icon(
