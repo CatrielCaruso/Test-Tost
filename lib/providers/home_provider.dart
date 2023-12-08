@@ -9,7 +9,6 @@ import 'package:test_tots/theme/custom_style_theme.dart';
 class HomeProvider with ChangeNotifier {
   FocusNode focusNode = FocusNode();
   bool initialLoading = true;
-  int pageNro = 1;
   List<Client> clients = [];
   List<Client> clientAux = [];
   List<Client> searchClients = [];
