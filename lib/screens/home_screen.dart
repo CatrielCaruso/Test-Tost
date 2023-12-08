@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/providers.dart';
-import 'package:test_tots/helpers/dialog_helper.dart';
+import 'package:test_tots/modals/dialog_modal.dart';
 import 'package:test_tots/theme/custom_style_theme.dart';
 import 'package:test_tots/widgets/widgets.dart';
 
@@ -27,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> initFetch() async {
     try {
-      readHomeProvider.getClients();
+      readHomeProvider.initFetch();
     } catch (e) {
-      DialogHelper.customSnackBar(
+      DialogModal.customSnackBar(
           context: context, text: 'Unexpected error', color: Colors.red);
     }
   }
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: CustomStylesTheme.shadowColor,
                                         offset: Offset(
                                           0.0,
-                                          4.0,
+                                          4,
                                         ),
                                         blurRadius: 15.0,
                                       ), //BoxShadow
@@ -153,9 +153,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                             Radius.circular(20),
                                           ),
                                           border: Border.all(
+                                            color: CustomStylesTheme.blackColor,
+                                            width: 1,
+                                          ),
+                                          boxShadow: const [
+                                            BoxShadow(
                                               color:
-                                                  CustomStylesTheme.blackColor,
-                                              width: 1),
+                                                  CustomStylesTheme.greeLight,
+                                              offset: Offset(
+                                                0.0,
+                                                4,
+                                              ),
+                                              blurRadius: 15.0,
+                                            ), //BoxShadow
+                                            //BoxShadow
+                                          ],
                                         ),
                                         child: Row(
                                           children: [
@@ -213,116 +225,130 @@ class _HomeScreenState extends State<HomeScreen> {
                                               onTap: () {
                                                 showModalBottomSheet(
                                                   context: context,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.vertical(
+                                                      top: Radius.circular(20),
+                                                    ),
+                                                  ),
                                                   builder: (context) {
                                                     return Container(
                                                       height: 200,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        20),
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        20)),
-                                                        color: CustomStylesTheme
-                                                            .yellowColor,
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    right: 20,
-                                                                    top: 20,
-                                                                    bottom: 30),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                GestureDetector(
-                                                                  onTap: () =>
-                                                                      Navigator.pop(
-                                                                          context),
-                                                                  child:
-                                                                      const Icon(
-                                                                    Icons.close,
-                                                                    color: CustomStylesTheme
-                                                                        .blackColor,
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
+                                                      color: Colors.transparent,
+                                                      child: Container(
+                                                        height: 200,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    20),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    20),
                                                           ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        10),
-                                                            child: Row(
-                                                              children: [
-                                                                Expanded(
-                                                                  child:
-                                                                      GestureDetector(
-                                                                    onTap: () => readHomeProvider.goToAbmClientUpdate(
-                                                                        client:
-                                                                            e,
-                                                                        context:
+                                                          color:
+                                                              CustomStylesTheme
+                                                                  .yellowColor,
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      right: 20,
+                                                                      top: 20,
+                                                                      bottom:
+                                                                          30),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .end,
+                                                                children: [
+                                                                  GestureDetector(
+                                                                    onTap: () =>
+                                                                        Navigator.pop(
                                                                             context),
                                                                     child:
-                                                                        CustomButtomOpcion(
-                                                                      text:
-                                                                          'Edit',
+                                                                        const Icon(
+                                                                      Icons
+                                                                          .close,
                                                                       color: CustomStylesTheme
                                                                           .blackColor,
-                                                                      image: Image
-                                                                          .asset(
-                                                                              'assets/img/ic_create.png'),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Expanded(
-                                                                  child:
-                                                                      GestureDetector(
-                                                                    onTap: ()async {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                      await readHomeProvider.onDelete(
-                                                                          context:
-                                                                              context,
-                                                                          idClient:
-                                                                              e.id!);
-                                                                    },
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                children: [
+                                                                  Expanded(
                                                                     child:
-                                                                        const CustomButtomOpcion(
-                                                                      text:
-                                                                          'Delete',
-                                                                      color: CustomStylesTheme
-                                                                          .redColor,
-                                                                      image:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .delete_forever,
+                                                                        GestureDetector(
+                                                                      onTap: () => readHomeProvider.goToAbmClientUpdate(
+                                                                          client:
+                                                                              e,
+                                                                          context:
+                                                                              context),
+                                                                      child:
+                                                                          CustomButtomOpcion(
+                                                                        text:
+                                                                            'Edit',
                                                                         color: CustomStylesTheme
-                                                                            .whiteColor,
+                                                                            .blackColor,
+                                                                        image: Image.asset(
+                                                                            'assets/img/ic_create.png'),
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )
-                                                        ],
+                                                                  const SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Expanded(
+                                                                    child:
+                                                                        GestureDetector(
+                                                                      onTap:
+                                                                          () async {
+                                                                        Navigator.of(context)
+                                                                            .pop();
+                                                                        await readHomeProvider.onDelete(
+                                                                            context:
+                                                                                context,
+                                                                            idClient:
+                                                                                e.id!);
+                                                                      },
+                                                                      child:
+                                                                          const CustomButtomOpcion(
+                                                                        text:
+                                                                            'Delete',
+                                                                        color: CustomStylesTheme
+                                                                            .redColor,
+                                                                        image:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .delete_forever,
+                                                                          color:
+                                                                              CustomStylesTheme.whiteColor,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     );
                                                   },
@@ -335,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       )),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 20,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(

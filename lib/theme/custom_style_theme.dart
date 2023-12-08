@@ -13,6 +13,7 @@ class CustomStylesTheme {
   static const yellowColor = Color.fromRGBO(228, 243, 83, 0.83);
   static const redColor = Color(0xFFff0000);
   static const greenColor = Color(0xFF008000);
+  static const greeLight = Color.fromRGBO(43, 192, 138, 0.1);
 
   /// Fonts
 
@@ -23,6 +24,4 @@ class CustomStylesTheme {
   static const fontWeightMedium = FontWeight.w500;
   static const fontWeightSemiBold = FontWeight.w600;
   static const fontWeightBold = FontWeight.w700;
-
-
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 import 'package:test_tots/core/preference.dart';
 import 'package:test_tots/providers/providers.dart';
 import 'package:test_tots/routes/app_routes.dart';
-import 'package:test_tots/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
-
+  await dotenv.load(fileName: "envs/.env");
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(const MyApp());
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               .copyWith(textScaleFactor: 1, devicePixelRatio: 1),
           child: widget!,
         ),
-        theme: AppTheme.getTheme(),
+        theme: ThemeData(useMaterial3: false),
         title: 'Material App',
         initialRoute: AppRoutes.initialRoute,
         routes: AppRoutes.routes,

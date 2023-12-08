@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:test_tots/core/preference.dart';
-import 'package:test_tots/helpers/dialog_helper.dart';
+import 'package:test_tots/modals/dialog_modal.dart';
 import 'package:test_tots/models/auth_model.dart';
 import 'package:test_tots/repository/auth_repository.dart';
 import 'package:test_tots/screens/home_screen.dart';
@@ -33,7 +33,7 @@ class LoginProvider with ChangeNotifier {
         isLoading = false;
         notifyListeners();
         if (!context.mounted) return;
-        DialogHelper.customSnackBar(
+        DialogModal.customSnackBar(
             context: context, text: resp.error.message, color: Colors.red);
 
         return;
@@ -45,7 +45,7 @@ class LoginProvider with ChangeNotifier {
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     } catch (e) {
       isLoading = false;
-      DialogHelper.customSnackBar(
+      DialogModal.customSnackBar(
           context: context, text: 'Unexpected error', color: Colors.red);
       return;
     }

@@ -121,6 +121,7 @@ class _AbmClientScreenState extends State<AbmClientScreen> {
                             height: 10,
                           ),
                           CustomInputWidget(
+                            keyboardType: TextInputType.emailAddress,
                             onTapOutside: (event) =>
                                 readAbmProvider.focusNodeEmail.unfocus(),
                             focusNode: readAbmProvider.focusNodeEmail,

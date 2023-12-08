@@ -57,6 +57,7 @@ class LoginScreen extends StatelessWidget {
                         height: 20,
                       ),
                       CustomInputWidget(
+                        keyboardType: TextInputType.emailAddress,
                         onTapOutside: (event) =>
                             readLoginProvider.focusNodeEmail.unfocus(),
                         focusNode: readLoginProvider.focusNodeEmail,

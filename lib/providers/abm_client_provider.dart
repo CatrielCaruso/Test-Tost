@@ -6,7 +6,7 @@ import 'package:test_tots/theme/custom_style_theme.dart';
 
 import '../models/client_model.dart';
 import 'package:flutter/material.dart';
-import 'package:test_tots/helpers/dialog_helper.dart';
+import 'package:test_tots/modals/dialog_modal.dart';
 import 'package:test_tots/repository/client_repository.dart';
 
 class AbmClientProvider with ChangeNotifier {
@@ -45,7 +45,7 @@ class AbmClientProvider with ChangeNotifier {
 
       if (client != null) {
         if (!context.mounted) return;
-        DialogHelper.customSnackBar(
+        DialogModal.customSnackBar(
             context: context,
             text: (updateClient == null)
                 ? 'Client created successfully'
@@ -58,7 +58,7 @@ class AbmClientProvider with ChangeNotifier {
     } catch (e) {
       isLoading = false;
       if (!context.mounted) return;
-      DialogHelper.customSnackBar(
+      DialogModal.customSnackBar(
           context: context,
           text: 'Unexpected error',
           color: CustomStylesTheme.redColor);
@@ -70,7 +70,7 @@ class AbmClientProvider with ChangeNotifier {
   void getCelula(File fileSelected) async {
     image = fileSelected;
   }
-  
+
   /// Función para convertir un file en string base 64
   Future<String> convertFile64(File file) async {
     final bytes = File(file.path).readAsBytesSync();

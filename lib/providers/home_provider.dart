@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_tots/helpers/dialog_helper.dart';
+import 'package:test_tots/modals/dialog_modal.dart';
 
 import 'package:test_tots/models/client_model.dart';
 import 'package:test_tots/repository/client_repository.dart';
@@ -16,7 +16,15 @@ class HomeProvider with ChangeNotifier {
   int startIndex = 0;
   int endIndex = 5;
 
-
+  Future<void> initFetch() async {
+    try {
+      /// Limpios las variables para volver a traer los primero 5.
+      clearVariable();
+      await getClients();
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<void> getClients() async {
     try {
@@ -41,18 +49,16 @@ class HomeProvider with ChangeNotifier {
       notifyListeners();
 
       bool resp = await ClientRepository.deleteClient(idClient: idClient);
+
       /// Limpios las variables para volver a traer los primero 5.
-      startIndex = 0;
-      endIndex = 5;
-      clients = [];
-      clientAux = [];
+      clearVariable();
       clients = await ClientRepository.clients();
       fillArray();
 
       initialLoading = false;
       notifyListeners();
       if (!context.mounted) return;
-      DialogHelper.customSnackBar(
+      DialogModal.customSnackBar(
           context: context,
           text: (resp)
               ? 'Client deleted'
@@ -62,12 +68,18 @@ class HomeProvider with ChangeNotifier {
       initialLoading = false;
       notifyListeners();
 
-      DialogHelper.customSnackBar(
+      DialogModal.customSnackBar(
           context: context, text: 'Unexpected error', color: Colors.red);
       rethrow;
     }
   }
-  
+
+  void clearVariable() {
+    startIndex = 0;
+    endIndex = 5;
+    clients = [];
+    clientAux = [];
+  }
 
   /// Voy llenando el array que se muestra en el home de a 5 clientes.
   void fillArray() {
@@ -82,13 +94,13 @@ class HomeProvider with ChangeNotifier {
 
     searchClients = [...clientAux];
   }
-  
+
   /// Cargo el array
   Future<void> onLoadClints() async {
     fillArray();
     notifyListeners();
   }
-  
+
   /// Esta función busca los clientes basado en el string que se ingresando.
   void onSearchClient(String text) {
     searchClients.clear();

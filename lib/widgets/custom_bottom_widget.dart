@@ -15,20 +15,20 @@ class CustomButtomWidget extends StatelessWidget {
       alignment: Alignment.center,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: CustomStylesTheme.textDarkColor,
-        borderRadius: BorderRadius.all(
+        borderRadius: const BorderRadius.all(
           Radius.circular(34),
         ),
         boxShadow: [
           BoxShadow(
-            color: CustomStylesTheme.shadowColor,
-            offset: Offset(
-              0.0,
-              4.0,
-            ),
-            blurRadius: 15.0,
-          ), //BoxShadow
+              color: CustomStylesTheme.shadowColor.withOpacity(0.25),
+              offset: const Offset(
+                0.0,
+                4,
+              ),
+              blurRadius: 15.0,
+              spreadRadius: 0), //BoxShadow
           //BoxShadow
         ],
       ),

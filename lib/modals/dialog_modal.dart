@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DialogHelper {
+class DialogModal {
   static void customSnackBar(
       {required BuildContext context,
       required String text,
