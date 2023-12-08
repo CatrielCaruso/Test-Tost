@@ -24,13 +24,12 @@ class _AbmClientScreenState extends State<AbmClientScreen> {
   late final watchAbmProvider = context.watch<AbmClientProvider>();
   @override
   void initState() {
-    if (widget.client == null) return;
     fillClient();
     super.initState();
   }
 
   void fillClient() {
-    readAbmProvider.fillField(client: widget.client!);
+    readAbmProvider.fillField(client: widget.client);
   }
 
   @override

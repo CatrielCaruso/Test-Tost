@@ -38,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        key: readHomeProvider.scaffoldKey,
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
@@ -212,18 +211,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                readHomeProvider
-                                                    .scaffoldKey.currentState!
-                                                    .showBottomSheet<void>(
-                                                  (BuildContext context) {
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) {
                                                     return Container(
                                                       height: 200,
-                                                      decoration: BoxDecoration(
+                                                      decoration:
+                                                          const BoxDecoration(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
+                                                            BorderRadius.only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        20),
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        20)),
                                                         color: CustomStylesTheme
-                                                            .yellowColors,
+                                                            .yellowColor,
                                                       ),
                                                       child: Column(
                                                         mainAxisSize:
@@ -286,18 +290,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 const SizedBox(
                                                                   width: 5,
                                                                 ),
-                                                                const Expanded(
+                                                                Expanded(
                                                                   child:
-                                                                      CustomButtomOpcion(
-                                                                    text:
-                                                                        'Delete',
-                                                                    color: CustomStylesTheme
-                                                                        .redColors,
-                                                                    image: Icon(
-                                                                      Icons
-                                                                          .delete_forever,
+                                                                      GestureDetector(
+                                                                    onTap: ()async {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                      await readHomeProvider.onDelete(
+                                                                          context:
+                                                                              context,
+                                                                          idClient:
+                                                                              e.id!);
+                                                                    },
+                                                                    child:
+                                                                        const CustomButtomOpcion(
+                                                                      text:
+                                                                          'Delete',
                                                                       color: CustomStylesTheme
-                                                                          .whiteColor,
+                                                                          .redColor,
+                                                                      image:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .delete_forever,
+                                                                        color: CustomStylesTheme
+                                                                            .whiteColor,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 )

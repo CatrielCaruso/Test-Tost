@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:test_tots/screens/home_screen.dart';
+import 'package:test_tots/theme/custom_style_theme.dart';
 
 import '../models/client_model.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,12 @@ class AbmClientProvider with ChangeNotifier {
   FocusNode focusNodeLastName = FocusNode();
   FocusNode focusNodeAdress = FocusNode();
   bool isLoading = false;
+  Client? updateClient;
   File? image;
 
   Future<void> onSaved({required BuildContext context}) async {
     Map<String, dynamic> formUser = {
+      "id": updateClient?.id,
       "email": emailController.text.trim(),
       "firstname": firtsNameController.text.trim(),
       "lastname": lastNameController.text.trim(),
@@ -38,14 +41,16 @@ class AbmClientProvider with ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      Client? client = await ClientRepository.newClient(data: formUser);
+      Client? client = await ClientRepository.createClient(data: formUser);
 
       if (client != null) {
         if (!context.mounted) return;
         DialogHelper.customSnackBar(
             context: context,
-            text: 'Client created successfully',
-            color: Colors.green);
+            text: (updateClient == null)
+                ? 'Client created successfully'
+                : 'Client updated successfully',
+            color: CustomStylesTheme.greenColor);
         clearData();
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         isLoading = false;
@@ -54,7 +59,9 @@ class AbmClientProvider with ChangeNotifier {
       isLoading = false;
       if (!context.mounted) return;
       DialogHelper.customSnackBar(
-          context: context, text: 'Unexpected error', color: Colors.red);
+          context: context,
+          text: 'Unexpected error',
+          color: CustomStylesTheme.redColor);
 
       return;
     }
@@ -63,7 +70,8 @@ class AbmClientProvider with ChangeNotifier {
   void getCelula(File fileSelected) async {
     image = fileSelected;
   }
-
+  
+  /// Función para convertir un file en string base 64
   Future<String> convertFile64(File file) async {
     final bytes = File(file.path).readAsBytesSync();
     return "data:image/png;base64,${base64Encode(bytes)}";
@@ -76,10 +84,11 @@ class AbmClientProvider with ChangeNotifier {
     addressController.clear();
   }
 
-  void fillField({required Client client}) {
-    emailController.text = client.email!;
-    firtsNameController.text = client.firstname!;
-    lastNameController.text = client.lastname!;
-    addressController.text = client.address!;
+  void fillField({Client? client}) {
+    updateClient = client;
+    emailController.text = client?.email ?? '';
+    firtsNameController.text = client?.firstname ?? '';
+    lastNameController.text = client?.lastname ?? '';
+    addressController.text = client?.address ?? '';
   }
 }

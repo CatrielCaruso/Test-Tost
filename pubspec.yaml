@@ -32,6 +32,7 @@ dependencies:
   dio: ^5.3.4
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.1.0
   image_picker: ^1.0.4
   provider: ^6.1.1
   shared_preferences: ^2.2.2
@@ -54,6 +55,7 @@ flutter:
   assets:
     - assets/
     - assets/img/
+    - envs/
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

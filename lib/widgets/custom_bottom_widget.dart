@@ -59,7 +59,7 @@ class CustomButtomOpcion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 17),
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           color: color,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),

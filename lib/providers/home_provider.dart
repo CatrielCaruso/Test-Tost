@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:test_tots/models/client_model.dart';
+import 'package:test_tots/helpers/dialog_helper.dart';
 
+import 'package:test_tots/models/client_model.dart';
 import 'package:test_tots/repository/client_repository.dart';
 import 'package:test_tots/screens/abm_client_screen.dart';
+import 'package:test_tots/theme/custom_style_theme.dart';
 
 class HomeProvider with ChangeNotifier {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   FocusNode focusNode = FocusNode();
   bool initialLoading = true;
   int pageNro = 1;
@@ -14,6 +15,9 @@ class HomeProvider with ChangeNotifier {
   List<Client> searchClients = [];
   int startIndex = 0;
   int endIndex = 5;
+
+
+
   Future<void> getClients() async {
     try {
       initialLoading = true;
@@ -25,10 +29,47 @@ class HomeProvider with ChangeNotifier {
     } catch (e) {
       initialLoading = false;
       notifyListeners();
+
       rethrow;
     }
   }
 
+  Future<void> onDelete(
+      {required BuildContext context, required int idClient}) async {
+    try {
+      initialLoading = true;
+      notifyListeners();
+
+      bool resp = await ClientRepository.deleteClient(idClient: idClient);
+      /// Limpios las variables para volver a traer los primero 5.
+      startIndex = 0;
+      endIndex = 5;
+      clients = [];
+      clientAux = [];
+      clients = await ClientRepository.clients();
+      fillArray();
+
+      initialLoading = false;
+      notifyListeners();
+      if (!context.mounted) return;
+      DialogHelper.customSnackBar(
+          context: context,
+          text: (resp)
+              ? 'Client deleted'
+              : 'The client could not be deleted. Please try again later.',
+          color: CustomStylesTheme.redColor);
+    } catch (e) {
+      initialLoading = false;
+      notifyListeners();
+
+      DialogHelper.customSnackBar(
+          context: context, text: 'Unexpected error', color: Colors.red);
+      rethrow;
+    }
+  }
+  
+
+  /// Voy llenando el array que se muestra en el home de a 5 clientes.
   void fillArray() {
     clientAux = [...clients.sublist(0, endIndex)];
 
@@ -41,13 +82,14 @@ class HomeProvider with ChangeNotifier {
 
     searchClients = [...clientAux];
   }
-
+  
+  /// Cargo el array
   Future<void> onLoadClints() async {
     fillArray();
-
     notifyListeners();
   }
-
+  
+  /// Esta función busca los clientes basado en el string que se ingresando.
   void onSearchClient(String text) {
     searchClients.clear();
     if (text.isEmpty) {
