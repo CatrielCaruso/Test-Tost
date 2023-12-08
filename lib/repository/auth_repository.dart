@@ -6,14 +6,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:test_tots/models/models.dart';
 
 class AuthRepository {
-  static final String? _apiUrl = dotenv.env['API_URL'];
+   static final  String? _apiUrl = dotenv.env['API_URL'];
   static Future<dynamic> login(
       {required String email, required String password}) async {
+    
+
     final Dio dio = Dio();
 
     try {
       var response = await dio.post(
-        'https://agency-coda.uc.r.appspot.com/mia-auth/login',
+        '$_apiUrl/mia-auth/login',
         options: Options(
           headers: {
             'Accept': 'application/json',
