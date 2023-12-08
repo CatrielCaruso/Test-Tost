@@ -51,9 +51,9 @@ class AbmClientProvider with ChangeNotifier {
                 ? 'Client created successfully'
                 : 'Client updated successfully',
             color: CustomStylesTheme.greenColor);
-        clearData();
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         isLoading = false;
+        clearData();
       }
     } catch (e) {
       isLoading = false;
@@ -71,12 +71,13 @@ class AbmClientProvider with ChangeNotifier {
     image = fileSelected;
   }
 
-  /// Función para convertir un file en string base 64
+  /// Función para convertir un file en string base 64.
   Future<String> convertFile64(File file) async {
     final bytes = File(file.path).readAsBytesSync();
     return "data:image/png;base64,${base64Encode(bytes)}";
   }
 
+  /// Limpiamos los controlers
   void clearData() {
     emailController.clear();
     firtsNameController.clear();
@@ -84,6 +85,7 @@ class AbmClientProvider with ChangeNotifier {
     addressController.clear();
   }
 
+  /// Llenamos los controller para los casos de edición.
   void fillField({Client? client}) {
     updateClient = client;
     emailController.text = client?.email ?? '';

@@ -13,8 +13,7 @@ class HomeProvider with ChangeNotifier {
   List<Client> clients = [];
   List<Client> clientAux = [];
   List<Client> searchClients = [];
-  int startIndex = 0;
-  int endIndex = 5;
+  int endIndex = 0;
 
   Future<void> initFetch() async {
     try {
@@ -31,7 +30,7 @@ class HomeProvider with ChangeNotifier {
       initialLoading = true;
 
       clients = await ClientRepository.clients();
-      fillArray();
+      fillArray(endIndexLocal: 5);
       initialLoading = false;
       notifyListeners();
     } catch (e) {
@@ -50,10 +49,12 @@ class HomeProvider with ChangeNotifier {
 
       bool resp = await ClientRepository.deleteClient(idClient: idClient);
 
-      /// Limpios las variables para volver a traer los primero 5.
-      clearVariable();
-      clients = await ClientRepository.clients();
-      fillArray();
+      if (resp) {
+        clients = [];
+        searchClients = [];
+        clients = await ClientRepository.clients();
+        fillArray(endIndexLocal: -1);
+      }
 
       initialLoading = false;
       notifyListeners();
@@ -67,7 +68,6 @@ class HomeProvider with ChangeNotifier {
     } catch (e) {
       initialLoading = false;
       notifyListeners();
-
       DialogModal.customSnackBar(
           context: context, text: 'Unexpected error', color: Colors.red);
       rethrow;
@@ -75,29 +75,29 @@ class HomeProvider with ChangeNotifier {
   }
 
   void clearVariable() {
-    startIndex = 0;
-    endIndex = 5;
+    endIndex = 0;
     clients = [];
     clientAux = [];
   }
 
   /// Voy llenando el array que se muestra en el home de a 5 clientes.
-  void fillArray() {
-    clientAux = [...clients.sublist(0, endIndex)];
-
-    if (clients.length <= endIndex) return;
-    if (clients.length >= (endIndex + 5)) {
-      endIndex = endIndex + 5;
+  void fillArray({required int endIndexLocal}) {
+    if (endIndex + endIndexLocal < 0) return;
+    if (endIndex == clients.length) return;
+    if (clients.length >= (endIndex + endIndexLocal)) {
+      endIndex += endIndexLocal;
     } else {
       endIndex = clients.length;
     }
+
+    clientAux = [...clients.sublist(0, endIndex)];
 
     searchClients = [...clientAux];
   }
 
   /// Cargo el array
   Future<void> onLoadClints() async {
-    fillArray();
+    fillArray(endIndexLocal: 5);
     notifyListeners();
   }
 
