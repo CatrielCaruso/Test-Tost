@@ -45,8 +45,8 @@ class LoginProvider with ChangeNotifier {
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       isLoading = false;
     } catch (e) {
-      notifyListeners();
       isLoading = false;
+      notifyListeners();
       DialogModal.customSnackBar(
           context: context, text: 'Unexpected error', color: Colors.red);
       return;
