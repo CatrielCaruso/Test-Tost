@@ -52,6 +52,10 @@ class AbmClientProvider with ChangeNotifier {
                 : 'Client updated successfully',
             color: CustomStylesTheme.greenColor);
 
+        isLoading = false;
+        clearData();
+        notifyListeners();
+
         await Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -59,12 +63,10 @@ class AbmClientProvider with ChangeNotifier {
         );
 
         // Navigator.pushNamed(context, HomeScreen.routeName);
-
-        isLoading = false;
-        clearData();
       }
     } catch (e) {
       isLoading = false;
+      notifyListeners();
       if (!context.mounted) return;
       DialogModal.customSnackBar(
           context: context,

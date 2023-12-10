@@ -369,8 +369,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   },
                                                 );
                                               },
-                                              child: Image.asset(
-                                                  'assets/img/ic_more.png'),
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Image.asset(
+                                                    'assets/img/ic_more.png'),
+                                              ),
                                             ),
                                           ],
                                         ),
