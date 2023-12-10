@@ -304,11 +304,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   Expanded(
                                                                     child:
                                                                         GestureDetector(
-                                                                      onTap: () => readHomeProvider.goToAbmClientUpdate(
-                                                                          client:
-                                                                              e,
-                                                                          context:
-                                                                              context),
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+
+                                                                        readHomeProvider.goToAbmClientUpdate(
+                                                                            client:
+                                                                                e,
+                                                                            context:
+                                                                                context);
+                                                                      },
                                                                       child:
                                                                           CustomButtomOpcion(
                                                                         text:
@@ -328,13 +334,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         GestureDetector(
                                                                       onTap:
                                                                           () async {
-                                                                        Navigator.of(context)
-                                                                            .pop();
-                                                                        await readHomeProvider.onDelete(
-                                                                            context:
-                                                                                context,
-                                                                            idClient:
-                                                                                e.id!);
+                                                                        DialogModal.customShowDialog(
+                                                                            context: context,
+                                                                            text: 'Are you sure to delete the client?',
+                                                                            accept: () async {
+                                                                              Navigator.pop(context);
+                                                                              Navigator.pop(context);
+                                                                              await readHomeProvider.onDelete(context: context, idClient: e.id!);
+                                                                            });
                                                                       },
                                                                       child:
                                                                           const CustomButtomOpcion(

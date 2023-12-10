@@ -18,7 +18,7 @@ class HomeProvider with ChangeNotifier {
   List<Client> searchClients = [];
   int endIndex = 0;
   bool disableButtom = false;
-  
+
   /// Carga inicial
   Future<void> initFetch() async {
     try {
@@ -105,6 +105,7 @@ class HomeProvider with ChangeNotifier {
   /// Cargo el array
   Future<void> onLoadClints() async {
     fillArray(endIndexLocal: 5);
+
     /// Si el buscador tiene un string al llenar el array tiene encuenta el buscador.
     if (searchText != '') {
       onSearchClient(searchText);
@@ -150,7 +151,7 @@ class HomeProvider with ChangeNotifier {
   }
 
   void logout({required BuildContext context}) {
-    Preferences.token='';
+    Preferences.token = '';
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),

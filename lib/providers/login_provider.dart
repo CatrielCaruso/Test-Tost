@@ -43,6 +43,7 @@ class LoginProvider with ChangeNotifier {
       Preferences.token = auth!.accessToken;
       if (!context.mounted) return;
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      isLoading = false;
     } catch (e) {
       notifyListeners();
       isLoading = false;

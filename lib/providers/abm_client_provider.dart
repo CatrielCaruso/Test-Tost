@@ -51,7 +51,15 @@ class AbmClientProvider with ChangeNotifier {
                 ? 'Client created successfully'
                 : 'Client updated successfully',
             color: CustomStylesTheme.greenColor);
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+
+        await Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (Route<dynamic> route) => false,
+        );
+
+        // Navigator.pushNamed(context, HomeScreen.routeName);
+
         isLoading = false;
         clearData();
       }
