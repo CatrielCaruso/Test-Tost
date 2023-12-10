@@ -41,6 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
+            Row(
+              children: [
+                const Spacer(),
+                IconButton(
+                    onPressed: () => readHomeProvider.logout(context: context),
+                    icon: const Icon(Icons.logout))
+              ],
+            ),
             Align(
               alignment: Alignment.topLeft,
               child: Image.asset('assets/img/home_top.png'),
@@ -363,14 +371,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 32),
-                                    child: GestureDetector(
-                                        onTap: () =>
-                                            readHomeProvider.onLoadClints(),
-                                        child: const CustomButtomWidget(
-                                            title: 'LOAD MORE')),
+                                  AbsorbPointer(
+                                    absorbing: watchHomeProvider.disableButtom,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 32),
+                                      child: GestureDetector(
+                                          onTap: () =>
+                                              readHomeProvider.onLoadClints(),
+                                          child: CustomButtomWidget(
+                                              disableButtonColor:
+                                                  watchHomeProvider
+                                                      .disableButtom,
+                                              title: 'LOAD MORE')),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10,

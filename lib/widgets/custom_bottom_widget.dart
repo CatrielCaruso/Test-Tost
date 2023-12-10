@@ -4,9 +4,11 @@ import 'package:test_tots/theme/custom_style_theme.dart';
 
 class CustomButtomWidget extends StatelessWidget {
   final String title;
+  final bool disableButtonColor;
   const CustomButtomWidget({
     super.key,
     required this.title,
+    this.disableButtonColor = false,
   });
 
   @override
@@ -16,7 +18,9 @@ class CustomButtomWidget extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
       decoration: BoxDecoration(
-        color: CustomStylesTheme.textDarkColor,
+        color: (disableButtonColor)
+            ? CustomStylesTheme.greyTextColor
+            : CustomStylesTheme.textDarkColor,
         borderRadius: const BorderRadius.all(
           Radius.circular(34),
         ),

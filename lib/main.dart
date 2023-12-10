@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:test_tots/core/preference.dart';
 import 'package:test_tots/providers/providers.dart';
 import 'package:test_tots/routes/app_routes.dart';
+import 'package:test_tots/screens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +45,9 @@ class MyApp extends StatelessWidget {
         ),
         theme: ThemeData(useMaterial3: false),
         title: 'Material App',
-        initialRoute: AppRoutes.initialRoute,
+        initialRoute: (Preferences.token != '')
+            ? HomeScreen.routeName
+            : AppRoutes.initialRoute,
         routes: AppRoutes.routes,
       ),
     );
